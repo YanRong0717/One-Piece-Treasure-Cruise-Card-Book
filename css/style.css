@@ -1,0 +1,443 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+
+        
+
+        html {
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+        
+        
+
+        body::-webkit-scrollbar {
+            width: 0 !important;
+        }
+
+        
+
+        .header {
+            width: 100vw;
+            height: 50px;
+            background-color: #ccc;
+            position: fixed;
+            background-image: url('../icon/banner.png');
+            background-size: 100vw 50px;
+
+        }
+
+        .logo img{
+            vertical-align: middle;
+            position: absolute;
+            width: 55px;
+            height: 50px;
+            right: 10px;
+            cursor:pointer;
+        }
+        .logo span{
+            position: absolute;
+            right: 50px;
+        }
+        #card > img{
+            cursor:pointer;
+        }
+        
+
+        .menu_btn {
+            width: 40px;
+            height: 40px;
+            background-color: #32312F;
+            position: absolute;
+            border-radius: 10px;
+            opacity: 1;
+            display: block;
+            top: 5px;
+            left: 5px;
+        }
+
+        .menu_btn span {
+            opacity: 0;
+
+        }
+
+        #menu_control, #checkAll, #menu_control_red, #menu_control_green, #menu_control_blue, #menu_control_yellow, #menu_control_purple, #menu_control_fighter, #menu_control_slasher, #menu_control_striker, #menu_control_shooter, #menu_control_free, #menu_control_power, #menu_control_driven, #menu_control_cerebral, #menu_control_atk, #menu_control_orb, #menu_control_color, #menu_control_chain{
+            position: absolute;
+            opacity: 0;
+            z-index: 2;
+        }
+        
+
+
+
+        .menu_btn::before {
+            content: '';
+            position: absolute;
+            height: 2px;
+            width: 32px;
+            left: 4px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            background-color: #aaa;
+            box-shadow: 0px 8px 0px #aaa,
+                0px -8px 0px #aaa;
+        }
+
+        nav {
+            width: 45%;
+            height: calc(100vh - 50px);
+            background-color: transparent;
+            position: absolute;
+            top: 50px;
+            left: -100%;
+            transition: .5s;
+            background-image: url('../icon/bgc6.png');
+            background-size: 45vw 100vh;
+            z-index: 1;
+        }
+
+        nav div {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .type {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            line-height: 40px;
+            margin-right: 10px;
+            position: relative;
+            top: 15px;
+            font-weight: bold;
+            font-size: 20px;
+            left: 5px;
+        }
+
+        .class {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            line-height: 40px;
+            margin-right: 10px;
+            position: relative;
+            top: 30px;
+
+        }
+
+        .class img {
+            vertical-align: middle;
+            width: 30px;
+            cursor: pointer;
+        }
+
+        .skill {
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            line-height: 30px;
+            margin-right: 10px;
+            position: relative;
+            top: 40px;
+        }
+
+        .skill img {
+            width: 40px;
+            height: 40px;
+            margin: 5px 0 5px;
+            cursor: pointer;
+        }
+
+        nav div li {
+            width: 200px;
+            height: 40px;
+        }
+
+        nav div label {
+            width: 200px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        #menu_control:checked~nav {
+            left: 0;
+        }
+
+        .wrap {
+            position: relative;
+            font-size: 0;
+            margin: 0;
+            height: calc(100vh - 60px);
+            opacity: 1;
+            -webkit-overflow-scrolling: touch;
+            display: none;
+            overflow: auto;
+            top: 50px;
+        }
+        .loading img{
+            top: 30%;
+            bottom: 0;
+            left: 25%;
+            position: fixed;
+            display: block;
+        }
+        
+        /* .wrap .item {
+            font-size: 16px;
+            display: inline-block;
+            width: 20%;
+            height: 0;
+            padding-bottom: 20%;
+            text-align: center;
+            background-color: #aaa;
+        }
+        .wrap .item img {
+            width: calc(100vw /5);
+            height: calc(100vw /5);
+        } */
+        .footer {
+            background-color: #333;
+            color: #aaa;
+            text-align: center;
+            position: fixed;
+            width: 100vw;
+            bottom: 0;
+            z-index: 9999;
+        }
+        .menu_btn_red {
+            background-color: rgba(255, 0, 0, .5);
+        }
+
+        .menu_btn_green {
+            background-color: rgba(0, 255, 100, .5);
+        }
+
+
+        .menu_btn_blue {
+            background-color: rgba(0, 100, 255, .5);
+        }
+
+
+        .menu_btn_yellow {
+            background-color: rgba(255, 255, 0, .5);
+        }
+
+
+        .menu_btn_purple {
+            background-color: rgba(185, 70, 238, 0.5);
+        }
+
+        
+
+        /* --------------------------------------- */
+
+
+        .menu_btn_fighter img, .menu_btn_slasher img, .menu_btn_striker img, .menu_btn_shooter img, .menu_btn_free img, .menu_btn_power img, .menu_btn_driven img, .menu_btn_cerebral img, .menu_btn_atk img, .menu_btn_orb img, .menu_btn_color img, .menu_btn_chain img {
+            opacity: 0.6;
+        }
+
+        /* ------------------------------------------------------- */
+        
+        #menu_control_red:checked~nav div .menu_btn_red {
+            background-color: rgba(255, 0, 0, 1);
+        }
+
+        #menu_control_green:checked~nav div .menu_btn_green {
+            background-color: rgba(0, 255, 100, 1);
+        }
+
+        #menu_control_blue:checked~nav div .menu_btn_blue {
+            background-color: rgba(0, 100, 255, 1);
+        }
+
+        #menu_control_yellow:checked~nav div .menu_btn_yellow {
+            background-color: rgba(255, 255, 0, 1);
+        }
+
+        #menu_control_purple:checked~nav div .menu_btn_purple {
+            background-color: rgba(185, 70, 238, 1);
+        }
+
+        /* ------------------------------------------------------- */
+        #menu_control_fighter:checked~nav div li .menu_btn_fighter img , #menu_control_slasher:checked~nav div li .menu_btn_slasher img, #menu_control_striker:checked~nav div li .menu_btn_striker img, #menu_control_shooter:checked~nav div li .menu_btn_shooter img, #menu_control_free:checked~nav div li .menu_btn_free img, #menu_control_power:checked~nav div li .menu_btn_power img, #menu_control_driven:checked~nav div li .menu_btn_driven img, #menu_control_cerebral:checked~nav div li .menu_btn_cerebral img, #menu_control_atk:checked~nav div li .menu_btn_atk img, #menu_control_orb:checked~nav div li .menu_btn_orb img, #menu_control_color:checked~nav div li .menu_btn_color img, #menu_control_chain:checked~nav div li .menu_btn_chain img{
+            opacity: 1;
+        }
+
+
+        .info{
+            position: absolute;
+            top:0px;
+            width:100vw;
+            height: 120vh;
+            background-image: url('../icon/xx.png');
+            display: none;
+            z-index: 999;
+            overflow: auto;
+            overflow-x: hidden;
+        }
+        
+        
+        .info > div img{
+            width: 100%;
+        }
+        #big{
+            width: 100%;
+            height: calc(100vw * .8);
+            
+        }
+        /* #big img{
+            width: 100%;
+        } */
+        .zz{
+            position:relative;
+            left:150px;
+            top:0px;
+            width: 150px;
+        }
+        #No{
+            left: -20px;
+            position: relative;
+        }
+        
+        .tab{
+            height:45px;
+            background-image: url('../icon/mid.png');
+            background-size: 95%;
+            width: 100vw;
+            position: relative;
+            padding: 10px;
+            font-size: 14px;
+            overflow: hidden;
+        }
+        .tab_img_bottom{
+            background-image: url('../icon/bottom.png');
+            background-size: 100%;
+            height: 8px;
+            width: 100vw;
+            position: relative;  
+            top: -5px;
+        }
+        .tab_img_up_skill{
+            background-image: url('../icon/up3.png');
+            background-size: 100%;
+            height: 31px;
+            width: 100vw;
+            position: relative;  
+        }
+        .tab_img_up_captain{
+            background-image: url('../icon/up.png');
+            background-size: 100%;
+            height: 31px;
+            width: 100vw;
+            position: relative;  
+        }
+        .tab_img_up_sailor{
+            background-image: url('../icon/up2.png');
+            background-size: 100%;
+            height: 31px;
+            width: 100vw;
+            position: relative;  
+        }
+        
+        
+        #skill, #captain, #sailor{
+            position: absolute;
+            top: 3px;
+            padding: 5px;
+            width: 95vw;
+        }
+
+        
+        #search_text{
+            position: relative;
+            top:60px;
+            left:30px;
+            width: 70px;
+        }
+        #search_btn{
+            position: relative;
+            top:60px;
+            left:40px;
+        }
+
+        .gotop{
+            position: fixed;
+            z-index: 99;
+            right: 0;
+            bottom: 20px;
+            cursor: pointer;
+        }
+        .gotop img{
+            width: 50px;
+            height: 50px;
+        }
+
+
+        @media screen and (min-width:768px) {
+            
+            #xx{
+                display: none;
+            }
+            .nav {
+                width: 200px;
+                background-size: 200px 100vh;
+                left: 0;
+            }
+
+            .wrap {
+                display: block;
+                top: 50px;
+                left: 200px;
+                position: absolute;
+                opacity: 1;
+            }
+
+            .wrap .item {
+                width: 112px;
+                height: 112px;
+                padding-bottom: 0;
+            }
+
+            .wrap .item img {
+                width: 112px;
+                height: 112px;
+            }
+            .info{
+                position: absolute;
+                top:50px;
+                left:calc((100vw - 200px)/2);
+                height: calc(100vh - 68.4px);
+                width: 400px;
+                display: none;
+                /* overflow: auto; */
+            }
+            
+            #big{
+                position:relative;
+                width: 400px;
+                height:320px;
+            }
+            
+            
+            .tab{
+                width: 380px;
+                background-size: 100%;
+            }
+            .tab_img_up_skill, .tab_img_up_sailor, .tab_img_up_captain, .tab_img_bottom{
+                width: 400px;
+            }
+            
+            #skill, #captain, #sailor{
+                width: 380px;
+            }
+            .loading img{
+                left: 50%;
+            }
+        }
+   

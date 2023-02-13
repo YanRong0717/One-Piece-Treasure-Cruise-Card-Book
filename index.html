@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta property="og:title" content="OnePiece">
+    </meta>
+    <meta property="og:description" content="祕寶巡航OPTC圖鑑">
+    </meta>
+    <meta property="og:site_name" content="OnePiece">
+    </meta>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="Shortcut Icon" type="image/x-icon" href="./icon/rabit.ico" />
+    <link rel="stylesheet" href="./css/style.css?v=1">
+    <link rel="stylesheet" href="./css/jquery-ui.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <title>OnePiece</title>
+</head>
+<script src="./js/jquery-3.3.1.min.js"></script>
+<script src="./js/jquery-ui.js"></script>
+<script src="./js/jquery.nicescroll.min.js"> </script>
+<Script>
+    //----------------------------起始畫面---------------------------------
+    $(document).ready(function () {
+
+        $('.wrap').niceScroll({
+            cursorwidth: 10,
+            autohidemode: false,
+            cursorminheight: 50,
+        });
+        if ($(document).width() < 768) {
+            $('.wrap').niceScroll({
+                cursorwidth: 7,
+                touchbehavior: true,
+            });
+        }
+
+        $.ajax({
+            url: './data/data.php',
+            data: 'data',
+            dataType: 'json',
+            success: function (data) {
+                // console.log(data[0].number);
+                var img_str = "";
+                // var start = (new Date()).getTime();
+                $.each(data, function (index, item) {
+                    // setTimeout(() => {
+                    img_str += `<img type="${item.class}" id="${item.number}" src="./OnepieceImage/all-small-image/f${item.number}.png">`;
+                    // var img = document.createElement("img");
+                    // img.src = "./OnepieceImage/all-small-image/f" + item.number + ".png";
+                    // var card = document.getElementById('card');
+                    // card.appendChild(img);
+                    // img.setAttribute("id", item.number);
+
+                    // }, 100);
+                })
+                // console.log((new Date()).getTime() - start);
+                // console.log(img_str);
+                $("#card").append(img_str);
+
+                if ($(window).width() < 767) {
+                    $("#card").find("img").css({ "width": "calc(100vw /5)", "height": "calc(100vw /5)" });
+                    // $("#card").find("img").css({ "height": "calc(100vw /5)" });
+                } else {
+                    $("#card").find("img").css({ "width": "120px", "height": "120px" });
+                    // $("#card").find("img").css({ "height": "120px" });
+                }
+
+                $('input:checkbox').prop("checked", true);
+                $("input[name='info']").prop("checked", false);
+
+                $("input[id='menu_control_atk']").prop("checked", false);
+                $("input[id='menu_control_orb']").prop("checked", false);
+                $("input[id='menu_control_color']").prop("checked", false);
+                $("input[id='menu_control_chain']").prop("checked", false);
+                $("input[id='menu_control_lock']").prop("checked", false);
+                $("input[id='menu_control_captain']").prop("checked", false);
+                $("input[id='menu_control_special']").prop("checked", false);
+                $("input[id='menu_control_shield']").prop("checked", false);
+                $("input[id='menu_control']").prop("checked", false);
+
+                $(".loading").css("display", "none");
+                $(".wrap").css("display", "block")
+
+            }
+        })
+    });
+    //----------------------------起始畫面---------------------------------
+    //----------------------------選取全部---------------------------------
+    $(function () {
+        $('#checkAll').click(function () {
+            if ($("#checkAll").prop("checked")) {
+                $("input[name='checkbox'").prop("checked", true);
+                $("input[id='menu_control_atk']").prop("checked", false);
+                $("input[id='menu_control_orb']").prop("checked", false);
+                $("input[id='menu_control_color']").prop("checked", false);
+                $("input[id='menu_control_chain']").prop("checked", false);
+            } else {
+                $("input[name='checkbox']").prop("checked", false);
+            }
+        });
+    });
+    //----------------------------選取全部---------------------------------
+    //----------------------------查看資料---------------------------------
+    $(function () {
+
+        $('.wrap').click(function () {
+
+            $("input[name='info']").prop("checked", true);
+            $("input[name='menu']").prop("checked", false);
+            var target = event.target.id;
+            // console.log(target)
+            if (target !== "card") { //點空白處才不會也顯示info
+                if ($("#info").css("display") == "none") {
+                    $('#info').css("display", "block")
+                    if ($(document).width() <= 768) {
+                        $(".wrap").hide();
+                    }
+
+                    $.ajax({
+                        url: './data/info.php',
+                        type: "POST",
+                        data: { id: target, },
+                        dataType: "json",
+                        success: function (data) {
+
+                            var img = "./OnepieceImage/all-big-image/c" + target + ".png";
+                            var No = target;
+                            var classs = data[0].class; //要加[]
+                            var captain = data[0].captain;
+                            var skill = data[0].skill;
+                            var sailor = data[0].sailor;
+                            $(".info #big img").attr("src", img);
+
+                            $(".info div #No").text("NO :" + No + "\t" + classs);
+                            // $(".info div #class").text(classs);
+                            $(".info .tab #captain").text(captain);
+                            $(".info .tab #skill").text(skill);
+                            $(".info .tab #sailor").text(sailor);
+                            // console.log(img)
+
+                            $("#big_img").on("error", function () {
+                                $("#big_img").attr("src", "./icon/unknow.png");
+                            })
+                        }
+                    });
+                }
+
+                if ($("#info").css("display") == "block") {
+                    $("#card").css("opacity", .6);
+                }
+            }
+
+            var box, box2, box3;
+            // if ($("#info").css("display") == "block") {
+            //     box = document.getElementById("tab");
+            //     box2 = document.getElementById("tab2");
+            //     box3 = document.getElementById("tab3");
+            //     window.setInterval(scroll, 200);
+            // }
+
+            // function scroll() {
+            //     if (box.scrollTop == 0) {
+            //         setTimeout(function () {
+            //             box.scrollTop++;
+            //             // console.log(box.scrollTop + box.offsetHeight, box.scrollHeight)
+            //         }, 2000)
+            //     } else {
+            //         box.scrollTop++;
+            //     }
+            //     if (box.scrollTop + box.offsetHeight + 1 > box.scrollHeight) {
+            //         setTimeout(function () {
+            //             box.scrollTop = 0;
+            //         }, 2000)
+            //     }
+            //     //--
+            //     if (box2.scrollTop == 0) {
+            //         setTimeout(function () {
+            //             box2.scrollTop++;
+            //         }, 2000)
+            //     } else {
+            //         box2.scrollTop++;
+            //     }
+            //     if (box2.scrollTop + box2.offsetHeight + 1 > box2.scrollHeight) {
+            //         setTimeout(function () {
+            //             box2.scrollTop = 0;
+            //         }, 2000)
+            //     }
+            //     //--  
+            //     if (box3.scrollTop == 0) {
+            //         setTimeout(function () {
+            //             box3.scrollTop++;
+            //         }, 2000)
+            //     } else {
+            //         box3.scrollTop++;
+            //     }
+            //     if (box3.scrollTop + box3.offsetHeight + 1 > box3.scrollHeight) {
+            //         setTimeout(function () {
+            //             box3.scrollTop = 0;
+            //         }, 2000)
+            //     }
+            //     //--
+            // }
+        })
+    })
+    //----------------------------查看資料---------------------------------
+    //------------------------桌機點空白處取消查看-----------------
+
+    $('#tab').click(function (event) {
+        event.stopPropagation();
+    });
+    $(function () {
+        if ($(document).width() >= 768) {
+            var nav = $('.nav');  // 設定目標區域
+            var wrap = $('.wrap');
+            var header = $('.header');
+            var info = $('#info');
+
+            $('#info').click(function (event) {
+                event.stopPropagation();
+            });
+
+            var display = true;
+            $(document).click(function (event) {
+
+                if (event.target.id !== "info_control" && $("#info").css("display") == "block" && display == true) {
+                    display = false;
+                    // console.log(display)
+                    $(".info").css({ display: "none" })
+                    $("#info_control").prop("checked", false)
+                    $("#card").css("opacity", .6);
+                    // $("#info").fadeToggle();
+                    $("#info").toggle("clip", "drop");
+                } else if (event.target.id !== "info_control" && $("#info").css("display") == "block" && display == false) {
+                    display = true;
+                    // console.log(display)
+                    $(".info").css({ display: "block" })
+                    $("#info_control").prop("checked", true)
+                    $("#card").css("opacity", 1);
+                    // $("#info").fadeToggle();
+                    $("#info").toggle("clip", "drop");
+                }
+            });
+        }
+        if ($(document).width() < 768) {
+            $('#info').click(function () {
+                $(".wrap").show();
+                $(".info").css({ display: "none" })
+                $("#card").css("opacity", 1);
+            })
+        }
+    })
+    //------------------------桌機點空白處取消查看-----------------
+    //----------------------------篩選類型---------------------------------
+    $(function () {
+        $('input[name="checkbox"]').click(function () {
+
+            var selected = new Array();
+            var type = 0;
+            var classs = 0;
+            var skill = 0;
+
+            $('input:checkbox').each((k, v) => {
+                // console.log(k, $(v).val(), $(v).prop('checked'))
+                if ($(v).prop('checked')) {
+                    // console.log($(v).val().length)
+                    if ($(v).val().length < 2) type++;
+                    else if ($(v).val() !== "on" && $(v).val() !== "拳頭" && $(v).val() !== "技能格影響" && $(v).val() !== "屬性增傷" && $(v).val() !== "連擊係數") {
+                        classs++;
+                    } else if ($(v).val() !== "on") {
+                        skill++;
+                    }
+                    selected.push($(v).val())
+                }
+            })
+
+            if (classs == 0 || type == 0) {
+                $("#card").empty();
+            } else {
+                $.ajax({
+                    url: './data/update.php',
+                    type: "POST",
+                    data: {
+                        data: selected,
+                        type: type,
+                        class: classs,
+                        skill: skill,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#card").empty();
+                        var img_str = "";
+                        $.each(data, function (index, item) {
+                            img_str += `<img  id="${item.number}" src="./OnepieceImage/all-small-image/f${item.number}.png">`;
+                        })
+                        $("#card").append(img_str);
+                        if ($(window).width() < 767) {
+                            $("#card").find("img").css({ "width": "calc(100vw /5)", "height": "calc(100vw /5)" });
+                        } else {
+                            $("#card").find("img").css({ "width": "120px", "height": "120px" });
+                        }
+                    }
+                });
+            }
+        })
+    });
+    //----------------------------篩選類型---------------------------------
+    //----------------------------輸入搜尋---------------------------------
+    function search() {
+        // console.log($("#search_text").val())
+
+        var selected = new Array();
+        var type = 0;
+        var classs = 0;
+        var skill = $("#search_text").val();
+
+        $('input:checkbox').each((k, v) => {
+            // console.log(k,r $(v).val(), $(v).prop('checked'))
+            if ($(v).prop('checked')) {
+                // console.log($(v).val().length)
+                if ($(v).val() == "力" || $(v).val() == "技" || $(v).val() == "速" || $(v).val() == "心" || $(v).val() == "知") type++;
+                else if ($(v).val() == "格鬥" || $(v).val() == "斬擊" || $(v).val() == "打擊" || $(v).val() == "射擊" || $(v).val() == "自由" || $(v).val() == "強韌" || $(v).val() == "野心" || $(v).val() == "博學") {
+                    classs++;
+                }
+                selected.push($(v).val())
+            }
+        })
+        console.log(selected)
+        console.log("type : " + type)
+        console.log("class : " + classs)
+        console.log("skill :" + skill)
+
+        if (classs == 0 || type == 0) {
+            $("#card").empty();
+        } else {
+            $.ajax({
+                url: './data/search.php',
+                type: "POST",
+                data: {
+                    data: selected,
+                    type: type,
+                    class: classs,
+                    skill: skill,
+                },
+                dataType: "json",
+                success: function (data) {
+                    $("#card").empty();
+                    var img_str = "";
+                    $.each(data, function (index, item) {
+                        img_str += `<img  id="${item.number}" src="./OnepieceImage/all-small-image/f${item.number}.png">`;
+                    })
+                    $("#card").append(img_str);
+                    if ($(window).width() < 767) {
+                        $("#card").find("img").css({ "width": "calc(100vw /5)", "height": "calc(100vw /5)" });
+                    } else {
+                        $("#card").find("img").css({ "width": "120px", "height": "120px" });
+                    }
+                }
+            });
+        }
+    }
+
+    //----------------------------輸入搜尋---------------------------------
+    //----------------------------回頂端---------------------------------
+    $(function () {
+        var gotop = document.getElementById("card");
+        gotop.scrollTop = 0;
+        $(".gotop").hide();
+        $(".wrap").scroll(function (event) {
+            // console.log(gotop.scrollTop)
+            if (gotop.scrollTop > 0) {
+                $(".gotop").show();
+            }
+            else {
+                $(".gotop").hide();
+            }
+        });
+        $(".gotop").click(function () {
+            var timer = window.setInterval(GoTop, 10);
+
+            function GoTop() {
+                if (gotop.scrollTop > 0) {
+                    if (gotop.scrollTop < 2000) {
+                        gotop.scrollTop -= 50;
+                    } else {
+                        gotop.scrollTop -= 500;
+                    }
+                } else {
+                    clearInterval(timer);
+                }
+            }
+        })
+
+    });
+
+    //----------------------------回頂端---------------------------------
+</Script>
+
+<body background="./icon/bgc5.jpg" name="xxx" οndragstart="return false" οncοntextmenu="return false"
+    onselectstart="return false">
+    <!-- -----------------------------checkbox-------------------------------- -->
+    <input type="checkbox" id="menu_control_red" value="力" name="checkbox">
+    <input type="checkbox" id="menu_control_green" value="技" name="checkbox">
+    <input type="checkbox" id="menu_control_blue" value="速" name="checkbox">
+    <input type="checkbox" id="menu_control_yellow" value="心" name="checkbox">
+    <input type="checkbox" id="menu_control_purple" value="知" name="checkbox">
+    <input type="checkbox" id="menu_control_fighter" value="格鬥" name="checkbox">
+    <input type="checkbox" id="menu_control_slasher" value="斬擊" name="checkbox">
+    <input type="checkbox" id="menu_control_striker" value="打擊" name="checkbox">
+    <input type="checkbox" id="menu_control_shooter" value="射擊" name="checkbox">
+    <input type="checkbox" id="menu_control_free" value="自由" name="checkbox">
+    <input type="checkbox" id="menu_control_power" value="強韌" name="checkbox">
+    <input type="checkbox" id="menu_control_driven" value="野心" name="checkbox">
+    <input type="checkbox" id="menu_control_cerebral" value="博學" name="checkbox">
+    <input type="checkbox" id="menu_control_atk" value="拳頭" name="checkbox">
+    <input type="checkbox" id="menu_control_orb" value="技能格影響" name="checkbox">
+    <input type="checkbox" id="menu_control_color" value="屬性增傷" name="checkbox">
+    <input type="checkbox" id="menu_control_chain" value="連擊係數" name="checkbox">
+    <!-- <input type="checkbox" id="menu_control_lock" value="封印狀態" name="checkbox">
+    <input type="checkbox" id="menu_control_captain" value="船長效果" name="checkbox">
+    <input type="checkbox" id="menu_control_shield" value="防禦力" name="checkbox">
+    <input type="checkbox" id="menu_control_special" value="必殺" name="checkbox"> -->
+    <input type="checkbox" id="menu_control" name="menu">
+    <input type="checkbox" id="checkAll" name="checkbox">
+    <input type="checkbox" id="info_control" style="display: none" name="info">
+    <!-- -----------------------------checkbox-------------------------------- -->
+    <!-- -----------------------------header-------------------------------- -->
+    <div class="header" id="header">
+        <label for="checkAll" class="logo">
+            <img src="./icon/chopper.png" alt="">
+        </label>
+        <label for="menu_control" class="menu_btn" id='xx'>
+            <span>選單</span>
+        </label>
+    </div>
+    <!-- -----------------------------header-------------------------------- -->
+    <!-- -----------------------------nav----------------------------------- -->
+    <nav class="nav" id="nav">
+        <!-- ---------------------type-------------------------- -->
+        <div class="type">
+            <label for="menu_control_red" class="menu_btn_red">
+                <span>力</span>
+            </label>
+            <label for="menu_control_green" class="menu_btn_green">
+                <span>技</span>
+            </label>
+            <label for="menu_control_blue" class="menu_btn_blue">
+                <span>速</span>
+            </label>
+        </div>
+        <div class="type">
+            <label for="menu_control_yellow" class="menu_btn_yellow">
+                <span>心</span>
+            </label>
+            <label for="menu_control_purple" class="menu_btn_purple">
+                <span>知</span>
+            </label>
+        </div>
+        <!-- ---------------------type-------------------------- -->
+        <!-- --------------------class-------------------------- -->
+        <div class="class">
+            <li>
+                <label for="menu_control_fighter" class="menu_btn_fighter">
+                    <p>
+                        <img src="./icon/type_fighter.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_slasher" class="menu_btn_slasher">
+                    <p>
+                        <img src="./icon/type_slasher.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_striker" class="menu_btn_striker">
+                    <p>
+                        <img src="./icon/type_striker.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_shooter" class="menu_btn_shooter">
+                    <p>
+                        <img src="./icon/type_shooter.png">
+                    </p>
+                </label>
+            </li>
+        </div>
+        <div class="class">
+            <li>
+                <label for="menu_control_free" class="menu_btn_free">
+                    <p>
+                        <img src="./icon/type_free.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_power" class="menu_btn_power">
+                    <p>
+                        <img src="./icon/type_power.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_driven" class="menu_btn_driven">
+                    <p>
+                        <img src="./icon/type_driven.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_cerebral" class="menu_btn_cerebral">
+                    <p>
+                        <img src="./icon/type_cerebral.png">
+                    </p>
+                </label>
+            </li>
+        </div>
+        <!-- --------------------class-------------------------- -->
+        <!-- --------------------skill-------------------------- -->
+        <div class="skill">
+            <li>
+                <label for="menu_control_atk" class="menu_btn_atk">
+                    <p>
+                        <img src="./icon/atk.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_orb" class="menu_btn_orb">
+                    <p>
+                        <img src="./icon/orb_boost_special.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_color" class="menu_btn_color">
+                    <p>
+                        <img src="./icon/color_affinity_boosters.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_chain" class="menu_btn_chain">
+                    <p>
+                        <img src="./icon/chain_boosters.png">
+                    </p>
+                </label>
+            </li>
+        </div>
+        <!-- <div class="skill">
+            <li>
+                <label for="menu_control_lock" class="menu_btn_lock">
+                    <p>
+                        <img src="./icon/lock.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_captain" class="menu_btn_captain">
+                    <p>
+                        <img src="./icon/captain.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_shield" class="menu_btn_shield">
+                    <p>
+                        <img src="./icon/shield.png">
+                    </p>
+                </label>
+            </li>
+            <li>
+                <label for="menu_control_special" class="menu_btn_special">
+                    <p>
+                        <img src="./icon/special.png">
+                    </p>
+                </label>
+            </li>
+        </div> -->
+
+        <!-- --------------------skill-------------------------- -->
+
+        <input type="text" id="search_text">
+        <input type="submit" id="search_btn" onclick="search()">
+    </nav>
+    <!-- -----------------------------nav----------------------------------- -->
+    <!-- ----------------------------wrap----------------------------------- -->
+    <div class="loading" id="loading">
+        <img src="./icon/loading.gif">
+    </div>
+    <div class="wrap" id="card">
+
+        <!-- <div class="item">
+            <img src="./OnepieceImage/6stars/f0261.png">
+        </div>
+        <div class="item">
+            <img src="./OnepieceImage/6stars/f0367.png">
+        </div>
+        -->
+    </div>
+    <!-- ----------------------------wrap----------------------------------- -->
+    <!-- --------------------------footer----------------------------------- -->
+    <div class="footer">
+        &copy; copyright 2019 by Rong
+    </div>
+    <!-- --------------------------footer----------------------------------- -->
+
+
+    <!-- --------------------------info----------------------------------- -->
+    <label class="info" for="info_control" id="info">
+        <div id="big"><img src="" alt="" id="big_img"></div>
+        <div class='zz'>
+            <p id="No">No :</p>
+
+        </div>
+        <div class="ww">
+            <div class="tab_img_up_skill"></div>
+            <div class='tab' id="tab">
+                <div id="skill">
+                </div>
+            </div>
+            <div class="tab_img_bottom"></div>
+            <div class="tab_img_up_captain"></div>
+            <div class='tab' id="tab2">
+                <div id="captain">
+                </div>
+            </div>
+            <div class="tab_img_bottom"></div>
+            <div class="tab_img_up_sailor"></div>
+            <div class='tab' id="tab3">
+                <!-- <li>船員技</li> -->
+                <div id="sailor">
+                </div>
+            </div>
+            <div class="tab_img_bottom"></div>
+        </div>
+
+    </label>
+    <!-- --------------------------info----------------------------------- -->
+    <div class="gotop">
+        <div>
+            <img src="./icon/go-to-top.png" alt="">
+        </div>
+    </div>
+</body>
+
+</html>
